@@ -1,0 +1,7 @@
+FastAPI
+pysros
+uvicorn
+asyncio
+mcp[cli]
+requests
+uv
