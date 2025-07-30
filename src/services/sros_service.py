@@ -26,7 +26,7 @@ async def add_ip_prefix(prefix_name: str, ip_prefix: str):
 
 async def delete_ip_prefix(prefix_name: str, ip_prefix: str):
     try:
-        conn = connect(host="127.0.0.1",
+        conn = connect(host="192.168.9.2",
                        username="admin",
                        password="T9x$7Qm@4Zp!Lk2GhRw6",
                        hostkey_verify=False)

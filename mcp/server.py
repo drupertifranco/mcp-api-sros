@@ -37,6 +37,13 @@ def delete_ip(prefix_name: str, prefix: str) -> dict:
     response = requests.delete(url, json=payload)
     return response.json()
 
+@mcp.tool()
+def get_public_ip() -> dict: 
+    """Obtiene la IP pública del servidor"""
+    ip = requests.get(url='https://ifconfig.me/all.json').text
+    return {"public_ip": ip}
+    
+
 # Start the MCP server
 if __name__ == "__main__":
     mcp.run()   
