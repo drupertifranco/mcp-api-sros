@@ -7,7 +7,7 @@ async def add_ip_prefix(prefix_name: str, ip_prefix: str):
     try:
         conn = connect(host="192.168.9.2",
                        username="admin",
-                       password="T9x$7Qm@4Zp!Lk2GhRw6",
+                       password="########PUT_YOUR_PASSWORD_HERE########",
                        hostkey_verify=False)
         path = f'/nokia-conf:configure/filter/match-list/ip-prefix-list[prefix-list-name="nat-destination"]'
         payload = {
@@ -28,7 +28,7 @@ async def delete_ip_prefix(prefix_name: str, ip_prefix: str):
     try:
         conn = connect(host="192.168.9.2",
                        username="admin",
-                       password="T9x$7Qm@4Zp!Lk2GhRw6",
+                       password="########PUT_YOUR_PASSWORD_HERE########",
                        hostkey_verify=False)
         path = f'/nokia-conf:configure/filter/match-list/ip-prefix-list[prefix-list-name="{prefix_name}"]/prefix[ip-prefix="{ip_prefix}"]'
         conn.candidate.delete(path)
