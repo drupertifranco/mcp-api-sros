@@ -1,0 +1,998 @@
+{
+	"info": {
+		"_postman_id": "5714bbed-7449-4a5d-a576-45284b10f2d7",
+		"name": "test-altiplano",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27331288",
+		"_collection_link": "https://gold-sunset-788472.postman.co/workspace/Altiplano-Lab~fdd47e86-ba71-4732-9995-2ef45df507e9/collection/27331288-5714bbed-7449-4a5d-a576-45284b10f2d7?action=share&source=collection_link&creator=27331288"
+	},
+	"item": [
+		{
+			"name": "PRUEBAS ALTIPLANO Copy",
+			"item": [
+				{
+					"name": "delete",
+					"item": [
+						{
+							"name": "1.Delete Internet",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"l2-user\",\r\n        \"target\": \"HSI#MED-03\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+									"protocol": "{{protocol}}",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"{{base-url}}",
+										"rest",
+										"restconf",
+										"operations",
+										"ibn:delete-intent-from-network-and-controller"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.Delete ONT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"ont\",\r\n        \"target\": \"MED-03\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+									"protocol": "{{protocol}}",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"{{base-url}}",
+										"rest",
+										"restconf",
+										"operations",
+										"ibn:delete-intent-from-network-and-controller"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "create",
+					"item": [
+						{
+							"name": "1. ADD ONT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"MED-03\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n                \"ont:ont\": {\r\n                    \"ont-type\": \"bridge\",\r\n                    \"from-device-mapping\": [null],\r\n                    \"onu-service-profile\": \"default-by-l2-user\",\r\n                    \"pon-type\": \"gpon\",\r\n                    \"expected-serial-number\": \"ALCLFCA06F4B\",\r\n                    \"uni-service-configuration\": [\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN1\"\r\n                        }\r\n                    ],\r\n                \"fiber-name\": \"PON1_OLT1\"\r\n                    }\r\n            },\r\n            \"intent-type-version\": \"10\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+									"protocol": "{{protocol}}",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"{{base-url}}",
+										"rest",
+										"restconf",
+										"data",
+										"ibn:ibn"
+									],
+									"query": [
+										{
+											"key": "altiplano-triggerSyncUponSuccess",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1. ADD Transparente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"MED-03\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n                \"ont:ont\": {\r\n                    \"ont-type\": \"transparente\",\r\n                    \"from-device-mapping\": [null],\r\n                    \"onu-service-profile\": \"default-by-l2-user\",\r\n                    \"pon-type\": \"gpon\",\r\n                    \"expected-serial-number\": \"ALCLFCA06F4B\",\r\n                    \"uni-service-configuration\": [\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN1\"\r\n                        }\r\n                    ],\r\n                \"fiber-name\": \"PON1_OLT1\"\r\n                    }\r\n            },\r\n            \"intent-type-version\": \"10\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+									"protocol": "{{protocol}}",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"{{base-url}}",
+										"rest",
+										"restconf",
+										"data",
+										"ibn:ibn"
+									],
+									"query": [
+										{
+											"key": "altiplano-triggerSyncUponSuccess",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. ADD l2-user HSI",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"HSI-11#MED-03\",\r\n        \"intent-type\": \"l2-user\",\r\n        \"intent-specific-data\": {\r\n            \"l2-user:l2-user\": {\r\n                \"l2-infra\": \"HSI\",\r\n                \"service-profile\": \"INTERNET_TC0\",\r\n                \"speed-profile\": \"PLAN_100M\",\r\n                \"user-device-name\": \"MED-03\",\r\n                \"customer-id\": \"MED-03\",\r\n                //\"c-vlan-id\": 15,\r\n                \"q-vlan-id\": 11,\r\n                \"uni-id\": \"LAN1\"\r\n            }\r\n        },\r\n        \"intent-type-version\": \"13\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+									"protocol": "{{protocol}}",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"{{base-url}}",
+										"rest",
+										"restconf",
+										"data",
+										"ibn:ibn"
+									],
+									"query": [
+										{
+											"key": "altiplano-triggerSyncUponSuccess",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. ADD l2-user Untagged",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"HSI-11#MED-01\",\r\n        \"intent-type\": \"l2-user\",\r\n        \"intent-specific-data\": {\r\n            \"l2-user:l2-user\": {\r\n                \"l2-infra\": \"HSI\",\r\n                \"service-profile\": \"INTERNET_TC0\",\r\n                \"speed-profile\": \"PLAN_100M\",\r\n                \"user-device-name\": \"MED-01\",\r\n                \"customer-id\": \"MED-01\",\r\n                \"uni-id\": \"LAN1\",\r\n                \"untagged\": [\r\n                    null\r\n                ]\r\n                //\"c-vlan-id\": 11\r\n            }\r\n        },\r\n        \"intent-type-version\": \"13\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+									"protocol": "{{protocol}}",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"{{base-url}}",
+										"rest",
+										"restconf",
+										"data",
+										"ibn:ibn"
+									],
+									"query": [
+										{
+											"key": "altiplano-triggerSyncUponSuccess",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. ADD Transparent l2-user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"HSI#MED-03\",\r\n        \"intent-type\": \"l2-user\",\r\n        \"intent-specific-data\": {\r\n            \"l2-user:l2-user\": {\r\n                \"l2-infra\": \"HSI\",\r\n                \"service-profile\": \"INTERNET_TC0\",\r\n                \"speed-profile\": \"PLAN_100M\",\r\n                \"user-device-name\": \"MED-01\",\r\n                \"customer-id\": \"MED-01\",\r\n                \"uni-id\": \"LAN1\",\r\n                \"transparent-q-vlan-id\": 15\r\n                //\"c-vlan-id\": 11\r\n            }\r\n        },\r\n        \"intent-type-version\": \"13\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+									"protocol": "{{protocol}}",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"{{base-url}}",
+										"rest",
+										"restconf",
+										"data",
+										"ibn:ibn"
+									],
+									"query": [
+										{
+											"key": "altiplano-triggerSyncUponSuccess",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get L2-USER",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/data/ibn:ibn/intent=HSI%23MED-03,l2-user",
+									"protocol": "{{protocol}}",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"{{base-url}}",
+										"rest",
+										"restconf",
+										"data",
+										"ibn:ibn",
+										"intent=HSI%23MED-03,l2-user"
+									]
+								},
+								"description": "This request is to view existing managed directory service managers information."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "infra",
+					"item": [
+						{
+							"name": "DELETE INFRA Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"l2-infra\",\r\n        \"target\": \"OLT1#HSI\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+									"protocol": "{{protocol}}",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"{{base-url}}",
+										"rest",
+										"restconf",
+										"operations",
+										"ibn:delete-intent-from-network-and-controller"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Residential Bridge Transparente",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n            \"ibn:intent\": {\n                \"target\": \"OLT1#HSI\",\n                \"intent-type\": \"l2-infra\",\n                \"intent-specific-data\": {\n                    \"l2-infra:l2-infra\": {\n                        \"nni-id\": \"nt-a:xfp:1\",\n                        \"none\": [null],  \n                        //\"s-vlan-id\": 15,\n                        \"c-vlan-id\": 15,\n                        \"forwarder-profile\": \"Unicast\",\n                        \"service-profile\": \"Unicast-l2cp-pass\",\n                        \"vlan-mode\": \"residential-bridge\"\n                    }\n                },\n                \"intent-type-version\": \"12\",\n                \"required-network-state\": \"active\"\n            }\n    }"
+								},
+								"url": {
+									"raw": "https://192.168.9.65/nokia-altiplano-ac/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+									"protocol": "https",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"nokia-altiplano-ac",
+										"rest",
+										"restconf",
+										"data",
+										"ibn:ibn"
+									],
+									"query": [
+										{
+											"key": "altiplano-triggerSyncUponSuccess",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cross-connect",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n            \"ibn:intent\": {\n                \"target\": \"OLT1#HSI\",\n                \"intent-type\": \"l2-infra\",\n                \"intent-specific-data\": {\n                    \"l2-infra:l2-infra\": {\n                        \"nni-id\": \"nt-a:xfp:1\",\n                        \"none\": [null],  \n                        \"s-vlan-id\": 15,\n                        //\"c-vlan-id\": 11,\n                        \"forwarder-profile\": \"Unicast\",\n                        \"service-profile\": \"Unicast\",\n                        \"vlan-mode\": \"cross-connect\"\n                    }\n                },\n                \"intent-type-version\": \"12\",\n                \"required-network-state\": \"active\"\n            }\n    }"
+								},
+								"url": {
+									"raw": "https://192.168.9.65/nokia-altiplano-ac/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+									"protocol": "https",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"nokia-altiplano-ac",
+										"rest",
+										"restconf",
+										"data",
+										"ibn:ibn"
+									],
+									"query": [
+										{
+											"key": "altiplano-triggerSyncUponSuccess",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "S-VLAN-CC",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/yang-data+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/yang-data+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n            \"ibn:intent\": {\n                \"target\": \"OLT1#HSI\",\n                \"intent-type\": \"l2-infra\",\n                \"intent-specific-data\": {\n                    \"l2-infra:l2-infra\": {\n                        \"nni-id\": \"nt-a:xfp:1\",\n                        \"none\": [null],  \n                        \"s-vlan-id\": 15,\n                        \"forwarder-profile\": \"Unicast\",\n                        \"service-profile\": \"Unicast\",\n                        \"vlan-mode\": \"s-vlan-cross-connect\"\n                    }\n                },\n                \"intent-type-version\": \"12\",\n                \"required-network-state\": \"active\"\n            }\n    }"
+								},
+								"url": {
+									"raw": "https://192.168.9.65/nokia-altiplano-ac/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+									"protocol": "https",
+									"host": [
+										"192",
+										"168",
+										"9",
+										"65"
+									],
+									"path": [
+										"nokia-altiplano-ac",
+										"rest",
+										"restconf",
+										"data",
+										"ibn:ibn"
+									],
+									"query": [
+										{
+											"key": "altiplano-triggerSyncUponSuccess",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TOKEN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"access-token\", pm.response.json().accessToken);",
+									"pm.environment.set(\"refresh-token\", pm.response.json().refreshToken);",
+									"pm.globals.set(\"access-token\", pm.response.json().accessToken);",
+									"pm.globals.set(\"refresh-token\", pm.response.json().refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/auth/login",
+							"protocol": "{{protocol}}",
+							"host": [
+								"192",
+								"168",
+								"9",
+								"65"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Get Access Token and Refresh Token by Login method before executing any other RESTCONF request."
+					},
+					"response": []
+				},
+				{
+					"name": "SYNC DEVICE-CONFIG-FX",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://192.168.9.65/nokia-altiplano-ac/rest/restconf/data/ibn:ibn/intent=OLT1,device-config-fx/synchronize",
+							"protocol": "https",
+							"host": [
+								"192",
+								"168",
+								"9",
+								"65"
+							],
+							"path": [
+								"nokia-altiplano-ac",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=OLT1,device-config-fx",
+								"synchronize"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. ADD l2-user HSI Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"HSI-11#MED-01\",\r\n        \"intent-type\": \"l2-user\",\r\n        \"intent-specific-data\": {\r\n            \"l2-user:l2-user\": {\r\n                \"l2-infra\": \"HSI\",\r\n                \"service-profile\": \"INTERNET_TC0\",\r\n                \"speed-profile\": \"PLAN_100M\",\r\n                \"user-device-name\": \"MED-01\",\r\n                \"customer-id\": \"MED-01\",\r\n                \"c-vlan-id\": 11,\r\n                \"q-vlan-id\": 11,\r\n                \"uni-id\": \"LAN1\"\r\n            }\r\n        },\r\n        \"intent-type-version\": \"13\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"192",
+								"168",
+								"9",
+								"65"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
