@@ -2,8 +2,11 @@
 Configuration settings for the MCP server.
 """
 
+import os
+from typing import Optional
+
 # Base configuration
-BASE_URL = "https://192.168.9.65/nokia-altiplano-ac"
+BASE_URL = "http://192.168.9.65/nokia-altiplano-ac"
 DEFAULT_HEADERS = {
     "Accept": "application/yang-data+json",
     "Content-Type": "application/yang-data+json"
@@ -11,6 +14,15 @@ DEFAULT_HEADERS = {
 
 # FastAPI configuration
 FASTAPI_BASE_URL = "http://localhost:8000"
+
+# Authentication configuration
+# You can set these via environment variables or modify them directly
+ALTIPLANO_USERNAME = os.getenv("ALTIPLANO_USERNAME", "admin")  # Default username
+ALTIPLANO_PASSWORD = os.getenv("ALTIPLANO_PASSWORD", "admin")  # Default password
+
+# Token cache configuration
+TOKEN_CACHE_DURATION = 3600  # Token cache duration in seconds (1 hour)
+TOKEN_CACHE_FILE = ".token_cache.json"  # File to store cached token
 
 # Default values
 DEFAULT_TARGETS = {
@@ -37,4 +49,7 @@ SERVICE_PROFILES = {
     "speed": "PLAN_100M",
     "unicast": "Unicast",
     "unicast_l2cp": "Unicast-l2cp-pass"
-} 
+}
+
+# SSL Configuration
+VERIFY_SSL = False  # Set to True in production with proper certificates 

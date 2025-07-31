@@ -2,12 +2,20 @@
 Create operations tools for Altiplano API (ONT and L2-User).
 """
 
-from ..server_factory import get_mcp_instance
-from ..config import (
-    BASE_URL, DEFAULT_TARGETS, DEFAULT_SERIAL_NUMBER, DEFAULT_FIBER_NAME,
-    INTENT_VERSIONS, SERVICE_PROFILES
-)
-from ..utils import make_request, build_auth_headers
+try:
+    from ..server_factory import get_mcp_instance
+    from ..config import (
+        BASE_URL, DEFAULT_TARGETS, DEFAULT_SERIAL_NUMBER, DEFAULT_FIBER_NAME,
+        INTENT_VERSIONS, SERVICE_PROFILES
+    )
+    from ..utils import make_request, build_auth_headers, require_auth_token
+except ImportError:
+    from server_factory import get_mcp_instance
+    from config import (
+        BASE_URL, DEFAULT_TARGETS, DEFAULT_SERIAL_NUMBER, DEFAULT_FIBER_NAME,
+        INTENT_VERSIONS, SERVICE_PROFILES
+    )
+    from utils import make_request, build_auth_headers, require_auth_token
 
 # Get the MCP instance
 mcp = get_mcp_instance()
@@ -16,16 +24,17 @@ mcp = get_mcp_instance()
 # ONT Creation Tools
 @mcp.tool()
 def add_ont_bridge(
-    access_token: str, 
+    access_token: str = None, 
     target: str = None, 
     serial_number: str = None, 
     fiber_name: str = None
 ) -> dict:
     """
     Add ONT with bridge type.
+    Automatically uses cached token if no access_token is provided.
     
     Args:
-        access_token: Bearer token for authentication
+        access_token: Bearer token for authentication (optional, uses cached token if not provided)
         target: Target identifier (default: MED-03)
         serial_number: ONT serial number (default: ALCLFCA06F4B)
         fiber_name: Fiber name (default: PON1_OLT1)
@@ -33,6 +42,12 @@ def add_ont_bridge(
     Returns:
         Dictionary with operation status
     """
+    # Check authentication
+    auth_result = require_auth_token(access_token)
+    if "error" in auth_result:
+        return auth_result
+    access_token = auth_result["access_token"]
+    
     if target is None:
         target = DEFAULT_TARGETS["ont"]
     if serial_number is None:

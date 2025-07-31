@@ -2,9 +2,14 @@
 Legacy tools for existing FastAPI endpoints.
 """
 
-from ..server_factory import get_mcp_instance
-from ..config import FASTAPI_BASE_URL
-from ..utils import make_request
+try:
+    from ..server_factory import get_mcp_instance
+    from ..config import FASTAPI_BASE_URL
+    from ..utils import make_request
+except ImportError:
+    from server_factory import get_mcp_instance
+    from config import FASTAPI_BASE_URL
+    from utils import make_request
 
 # Get the MCP instance
 mcp = get_mcp_instance()

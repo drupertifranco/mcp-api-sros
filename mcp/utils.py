@@ -4,7 +4,11 @@ Utility functions for the MCP server.
 
 import requests
 from typing import Dict, Any, Optional
-from .config import DEFAULT_HEADERS
+
+try:
+    from .config import DEFAULT_HEADERS
+except ImportError:
+    from config import DEFAULT_HEADERS
 
 
 def make_request(
@@ -30,10 +34,15 @@ def make_request(
         Dictionary with response data or error information
     """
     try:
-        # Merge default headers with provided headers
+        # Start with default headers
         request_headers = {**DEFAULT_HEADERS}
-        if headers:
-            request_headers.update(headers)
+        
+        # If custom headers are provided, they override defaults
+        if headers is not None:
+            if headers:  # If headers dict is not empty
+                request_headers.update(headers)
+            else:  # If headers dict is empty, use only the provided headers
+                request_headers = {}
         
         # Make the request
         response = requests.request(
@@ -86,4 +95,46 @@ def validate_required_params(params: Dict[str, Any], required: list) -> Optional
     missing = [param for param in required if param not in params or params[param] is None]
     if missing:
         return f"Missing required parameters: {', '.join(missing)}"
-    return None 
+    return None
+
+
+def get_auth_token(access_token: Optional[str] = None) -> Optional[str]:
+    """
+    Get authentication token, using cached token if none provided.
+    
+    Args:
+        access_token: Optional access token to use
+        
+    Returns:
+        Access token string or None if not available
+    """
+    if access_token:
+        return access_token
+    
+    try:
+        from .token_cache import get_cached_token
+        return get_cached_token()
+    except ImportError:
+        try:
+            from token_cache import get_cached_token
+            return get_cached_token()
+        except ImportError:
+            return None
+
+
+def require_auth_token(access_token: Optional[str] = None) -> Dict[str, Any]:
+    """
+    Require an authentication token, returning error if not available.
+    
+    Args:
+        access_token: Optional access token to use
+        
+    Returns:
+        Dictionary with token or error message
+    """
+    token = get_auth_token(access_token)
+    if not token:
+        return {
+            "error": "No access token provided and no cached token available. Please authenticate first using get_access_token() or authenticate_with_cached_token()."
+        }
+    return {"access_token": token} 

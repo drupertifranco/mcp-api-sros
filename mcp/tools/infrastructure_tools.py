@@ -2,12 +2,20 @@
 Infrastructure tools for Altiplano API.
 """
 
-from ..server_factory import get_mcp_instance
-from ..config import (
-    BASE_URL, DEFAULT_TARGETS, DEFAULT_NNI_ID, 
-    INTENT_VERSIONS, SERVICE_PROFILES
-)
-from ..utils import make_request, build_auth_headers
+try:
+    from ..server_factory import get_mcp_instance
+    from ..config import (
+        BASE_URL, DEFAULT_TARGETS, DEFAULT_NNI_ID, 
+        INTENT_VERSIONS, SERVICE_PROFILES
+    )
+    from ..utils import make_request, build_auth_headers
+except ImportError:
+    from server_factory import get_mcp_instance
+    from config import (
+        BASE_URL, DEFAULT_TARGETS, DEFAULT_NNI_ID, 
+        INTENT_VERSIONS, SERVICE_PROFILES
+    )
+    from utils import make_request, build_auth_headers
 
 # Get the MCP instance
 mcp = get_mcp_instance()

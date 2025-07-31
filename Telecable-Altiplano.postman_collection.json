@@ -1,0 +1,3557 @@
+{
+	"info": {
+		"_postman_id": "80d85713-77ec-4011-a9c1-94d955838db3",
+		"name": "Telecable-Altiplano",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27331288",
+		"_collection_link": "https://gold-sunset-788472.postman.co/workspace/Altiplano-Lab~fdd47e86-ba71-4732-9995-2ef45df507e9/collection/27331288-80d85713-77ec-4011-a9c1-94d955838db3?action=share&source=collection_link&creator=27331288"
+	},
+	"item": [
+		{
+			"name": "Tokens",
+			"item": [
+				{
+					"name": "GetAccessTokenIBN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"access-token\", pm.response.json().accessToken);",
+									"pm.environment.set(\"refresh-token\", pm.response.json().refreshToken);",
+									"pm.globals.set(\"access-token\", pm.response.json().accessToken);",
+									"pm.globals.set(\"refresh-token\", pm.response.json().refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/auth/login",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Get Access Token and Refresh Token by Login method before executing any other RESTCONF request."
+					},
+					"response": []
+				},
+				{
+					"name": "GetAccessTokenAV",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"access-token\", pm.response.json().accessToken);",
+									"pm.environment.set(\"refresh-token\", pm.response.json().refreshToken);",
+									"pm.globals.set(\"access-token\", pm.response.json().accessToken);",
+									"pm.globals.set(\"refresh-token\", pm.response.json().refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/nokia-altiplano-av/rest/auth/login",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"nokia-altiplano-av",
+								"rest",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Get Access Token and Refresh Token by Login method before executing any other RESTCONF request."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "1. Autofind",
+			"item": [
+				{
+					"name": "SHOW ont Specific",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false,
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"_source\": [\"alarmResourceUiName\", \"deviceRefId\"],\n  \"query\": {\n    \"bool\": {\n      \"must\": [\n        {\n          \"query_string\": {\n            \"default_field\": \"alarmType\",\n            \"query\": \"\\\"onu-present-and-unexpected\\\"\"\n          }\n        },\n        {\n          \"query_string\": {\n            \"default_field\": \"alarmResource\",\n            \"query\": \"\\\"ALCLB2C00826\\\"\"\n          }\n        }\n      ]\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://179.1.201.69/altiplano-indexsearch/alarms-active/_search?filter_path=hits.hits._source",
+							"protocol": "https",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"altiplano-indexsearch",
+								"alarms-active",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "filter_path",
+									"value": "hits.hits._source"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SHOW ont",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false,
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": {\n    \"bool\": {\n      \"must\": [\n        {\n          \"query_string\": {\n            \"default_field\": \"alarmType\",\n            \"query\": \"\\\"onu-present-and-unexpected\\\"\"\n          }\n        }\n      ]\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://179.1.201.69/altiplano-indexsearch/alarms-active/_search/",
+							"protocol": "https",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"altiplano-indexsearch",
+								"alarms-active",
+								"_search",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Procedimiento de validar la ont por un serial en especifico.\n\nModificar solamente donde se encuentra el serial number"
+		},
+		{
+			"name": "2. Servicio (Internet)",
+			"item": [
+				{
+					"name": "TOKEN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"access-token\", pm.response.json().accessToken);",
+									"pm.environment.set(\"refresh-token\", pm.response.json().refreshToken);",
+									"pm.globals.set(\"access-token\", pm.response.json().accessToken);",
+									"pm.globals.set(\"refresh-token\", pm.response.json().refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/auth/login",
+							"protocol": "{{protocol}}",
+							"host": [
+								"192",
+								"168",
+								"9",
+								"65"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Get Access Token and Refresh Token by Login method before executing any other RESTCONF request."
+					},
+					"response": []
+				},
+				{
+					"name": "1. ADD ONT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"MED-01\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n                \"ont:ont\": {\r\n                    \"ont-type\": \"G-010G-Q\",\r\n                    \"from-device-mapping\": [null],\r\n                    \"onu-service-profile\": \"default-by-l2-user\",\r\n                    \"pon-type\": \"gpon\",\r\n                    \"expected-serial-number\": \"ALCLFCA06F4B\",\r\n                    \"uni-service-configuration\": [\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN1\"\r\n                        }\r\n                    ],\r\n                \"fiber-name\": \"PON1_OLT1\"\r\n                    }\r\n            },\r\n            \"intent-type-version\": \"10\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"192",
+								"168",
+								"9",
+								"65"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD ONT Preconfig_File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"TELECABLE\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n            \"ont:ont\": {\r\n                \"ont-type\": \"G-1425G-B\",\r\n                \"target-software-control\": \"immediate-activation\",\r\n                \"onu-service-profile\": \"default-by-l2-user\",\r\n                \"pon-type\": \"gpon\",\r\n                \"onu-vendor-specific-software\": [\r\n                    {\r\n                        \"target-software-control\": \"immediate-activation\",\r\n                        \"software-type\": 1,\r\n                        \"active-software\": \"default-http:onu-vendor-specific-software/CFGTELE001/CFGTELE001\"\r\n                    }\r\n                ],\r\n                \"expected-serial-number\": \"ALCLB413D3E3\",\r\n                \"uni-service-configuration\": [\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"VEIP\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN1\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN2\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN3\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN4\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"TEL1\"\r\n                    }\r\n                ],\r\n                \"pots-service-profile\": \"default\",\r\n                \"fiber-name\": \"LT2-P1\"\r\n            }\r\n        },\r\n        \"intent-type-version\": \"7\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Huawei ADD ONT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"10GPON\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n                \"ont:ont\": {\r\n                    \"ont-type\": \"NOKIA-F\",\r\n                    \"from-device-mapping\": [null],\r\n                    \"onu-service-profile\": \"default-by-l2-user\",\r\n                    \"pon-type\": \"xgs\",\r\n                    \"expected-serial-number\": \"ALCLFC6DFED0\",\r\n                    \"uni-service-configuration\": [\r\n                        {\r\n                            \"service-profile\": \"default-l2\",\r\n                            \"uni-id\": \"VEIP\"\r\n                        }\r\n                    ],\r\n                \"fiber-name\": \"LT2_P1\"\r\n                    }\r\n            },\r\n            \"intent-type-version\": \"9\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. ADD l2-user HSI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"HSI#10GPON\",\r\n        \"intent-type\": \"l2-user\",\r\n        \"intent-specific-data\": {\r\n            \"l2-user:l2-user\": {\r\n                \"l2-infra\": \"HSI\",\r\n                \"service-profile\": \"INTERNET_TC0\",\r\n                \"speed-profile\": \"PLAN_10G\",\r\n                \"user-device-name\": \"10GPON\",\r\n                \"customer-id\": \"10GPON\",\r\n                \"q-vlan-id\": 100,\r\n                \"uni-id\": \"VEIP\"\r\n            }\r\n        },\r\n        \"intent-type-version\": \"11\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.Delete Internet Service Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"ont\",\r\n        \"target\": \"HUAWEI\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE INFRA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"l2-infra\",\r\n        \"target\": \"OLT1#HSI\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://192.168.9.65/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"192",
+								"168",
+								"9",
+								"65"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "En nokia el service-port se denomina l2-user para crear un l2-user debe existir un intent ont por tanto enumero el paso a paso para realizar este procedimiento"
+		},
+		{
+			"name": "3. Service MNG-TEL",
+			"item": [
+				{
+					"name": "1. ADD ONT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"TELECABLE\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n                \"ont:ont\": {\r\n                    \"ont-type\": \"G-1425G-B\",\r\n                    \"from-device-mapping\": [null],\r\n                    \"onu-service-profile\": \"default-by-l2-user\",\r\n                    \"pon-type\": \"gpon\",\r\n                    \"expected-serial-number\": \"ALCLB413D3E3\",\r\n                    \"uni-service-configuration\": [\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"VEIP\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN1\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN2\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN3\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN4\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"TEL1\"\r\n                        }\r\n                    ],\r\n                \"pots-service-profile\": \"default\",\r\n                \"fiber-name\": \"LT2-P1\"\r\n                    }\r\n            },\r\n            \"intent-type-version\": \"7\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD ONT Preconfig_File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"TELECABLE\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n            \"ont:ont\": {\r\n                \"ont-type\": \"G-1425G-B\",\r\n                \"target-software-control\": \"immediate-activation\",\r\n                \"onu-service-profile\": \"default-by-l2-user\",\r\n                \"pon-type\": \"gpon\",\r\n                \"onu-vendor-specific-software\": [\r\n                    {\r\n                        \"target-software-control\": \"immediate-activation\",\r\n                        \"software-type\": 1,\r\n                        \"active-software\": \"default-http:onu-vendor-specific-software/CFGTELE001/CFGTELE001\"\r\n                    }\r\n                ],\r\n                \"expected-serial-number\": \"ALCLB413D3E3\",\r\n                \"uni-service-configuration\": [\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"VEIP\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN1\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN2\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN3\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN4\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"TEL1\"\r\n                    }\r\n                ],\r\n                \"pots-service-profile\": \"default\",\r\n                \"fiber-name\": \"LT2-P1\"\r\n            }\r\n        },\r\n        \"intent-type-version\": \"7\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Este procedimiento va ligado al punto 4 , por tanto para ejecutar el mencionado se debe proceder a realizar este ya que debe existir un intent ont para crear el sip-agent y sip-user"
+		},
+		{
+			"name": "4. SIP Server",
+			"item": [
+				{
+					"name": "2. ADD SIP Agent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"ibn:intent\": {\r\n            \"target\": \"TELECABLE\",\r\n            \"intent-type\": \"standard-voip-sip-agent\",\r\n            \"intent-specific-data\": {\r\n                \"standard-voip-sip-agent:standard-voip-sip-agent\": {\r\n                    \"voip-l2-infra-name\": \"VOIP\",\r\n                    \"service-profile\": \"default-voip-sip\"\r\n                }\r\n            },\r\n            \"intent-type-version\": \"5\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. ADD SIP User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"ibn:intent\": {\r\n            \"target\": \"VOIP#TELECABLE\",\r\n            \"intent-type\": \"standard-voip-sip-user\",\r\n            \"intent-specific-data\": {\r\n                \"standard-voip-sip-user:standard-voip-sip-user\": {\r\n                    \"user-device-name\": \"TELECABLE\",\r\n                    \"uni-id\": \"TEL1\",\r\n                    \"sip-address-of-record\": \"5001\",\r\n                    \"sip-display-name\": \"5001\",\r\n                    \"sip-password\": \"fyco1234\",\r\n                    \"sip-user-name\": \"5001\"\r\n                }\r\n            },\r\n            \"intent-type-version\": \"3\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Aca administras los parametros de telefonia , ambos son obligatorios por ont, donde el SIP Agent siempre va a generarse igual solo cambiando el nombre del target o el alias del contrato"
+		},
+		{
+			"name": "5. Descripción Puerto",
+			"item": [
+				{
+					"name": "Desc Port",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"ibn:intent-specific-data\": {\r\n\t\t\"fiber:fiber\": {\r\n\t\t\t\"pon-port\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"device-name\": \"TELECABLE\",\r\n\t\t\t\t\t\"pon-id\": \"LT2.PON1\",\r\n\t\t\t\t\t\"description\": \"DESCRIPCION_PUERTO\"\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t}\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=LT2-P1,fiber/intent-specific-data=fiber:fiber?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=LT2-P1,fiber",
+								"intent-specific-data=fiber:fiber"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "La idea es que este procedimiento se haga de modo grafico por el equipo de networking que manejara el altiplano una vez cree todos y cada uno de los puertos PON"
+		},
+		{
+			"name": "6. Alias del Contrato",
+			"item": [
+				{
+					"name": "Add ONT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"TELECABLE\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n                \"ont:ont\": {\r\n                    \"ont-type\": \"G-1425G-B\",\r\n                    \"from-device-mapping\": [null],\r\n                    \"onu-service-profile\": \"default-by-l2-user\",\r\n                    \"pon-type\": \"gpon\",\r\n                    \"expected-serial-number\": \"ALCLB413D3E3\",\r\n                    \"uni-service-configuration\": [\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"VEIP\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN1\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN2\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN3\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"LAN4\"\r\n                        },\r\n                        {\r\n                            \"service-profile\": \"default-by-l2-user\",\r\n                            \"uni-id\": \"TEL1\"\r\n                        }\r\n                    ],\r\n                \"pots-service-profile\": \"default\",\r\n                \"fiber-name\": \"LT2-P1\"\r\n                    }\r\n            },\r\n            \"intent-type-version\": \"7\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=TELECABLE,ont",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=TELECABLE,ont"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD ONT Preconfig_File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"TELECABLE\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n            \"ont:ont\": {\r\n                \"ont-type\": \"G-1425G-B\",\r\n                \"target-software-control\": \"immediate-activation\",\r\n                \"onu-service-profile\": \"default-by-l2-user\",\r\n                \"pon-type\": \"gpon\",\r\n                \"onu-vendor-specific-software\": [\r\n                    {\r\n                        \"target-software-control\": \"immediate-activation\",\r\n                        \"software-type\": 1,\r\n                        \"active-software\": \"default-http:onu-vendor-specific-software/CFGTELE001/CFGTELE001\"\r\n                    }\r\n                ],\r\n                \"expected-serial-number\": \"ALCLB413D3E3\",\r\n                \"uni-service-configuration\": [\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"VEIP\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN1\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN2\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN3\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN4\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"TEL1\"\r\n                    }\r\n                ],\r\n                \"pots-service-profile\": \"default\",\r\n                \"fiber-name\": \"LT2-P1\"\r\n            }\r\n        },\r\n        \"intent-type-version\": \"7\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Al crear el intent ont el target puede ser tu Alias del contrato"
+		},
+		{
+			"name": "7. Corte de Servicios",
+			"item": [
+				{
+					"name": "Suspend ONT (total)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\":{\r\n        \"target\": \"XGSPON-FIBEX\",\r\n        \"intent-type\": \"ont\",\r\n        \"required-network-state\": \"active\",\r\n        \"intent-type-version\": \"9\"\r\n      }\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=FIBEX-LAB,ont?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=FIBEX-LAB,ont"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Suspend Internet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\":{\r\n        \"target\": \"HSI#TELECABLE\",\r\n        \"intent-type\": \"l2-user\",\r\n        \"required-network-state\": \"suspend\",\r\n        \"intent-type-version\": \"9\"\r\n      }\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=HSI%23TELECABLE,l2-user?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=HSI%23TELECABLE,l2-user"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Suspend VoIP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\":{\r\n        \"target\": \"VOIP#TELECABLE\",\r\n        \"intent-type\": \"standard-voip-sip-user\",\r\n        \"required-network-state\": \"suspend\",\r\n        \"intent-type-version\": \"3\"\r\n      }\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=VOIP%23TELECABLE,standard-voip-sip-user?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=VOIP%23TELECABLE,standard-voip-sip-user"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Suspender el intent ont es mas general suspende todos y cada uno de los servicios que van atados a la ont, las otras maneras de suspender son por servicio"
+		},
+		{
+			"name": "8. Reactivar Servicios",
+			"item": [
+				{
+					"name": "Resume ONT (total)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\":{\r\n        \"target\": \"TELECABLE\",\r\n        \"intent-type\": \"ont\",\r\n        \"required-network-state\": \"active\",\r\n        \"intent-type-version\": \"7\"\r\n      }\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=TELECABLE,ont?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=TELECABLE,ont"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resume Internet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\":{\r\n        \"target\": \"HSI#TELECABLE\",\r\n        \"intent-type\": \"l2-user\",\r\n        \"required-network-state\": \"active\",\r\n        \"intent-type-version\": \"9\"\r\n      }\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{protocol}}://{{server}}/{{base-url}}/rest/restconf/data/ibn:ibn/intent=HSI%23TELECABLE,l2-user?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=HSI%23TELECABLE,l2-user"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Suspend VoIP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\":{\r\n        \"target\": \"VOIP#TELECABLE\",\r\n        \"intent-type\": \"standard-voip-sip-user\",\r\n        \"required-network-state\": \"active\",\r\n        \"intent-type-version\": \"3\"\r\n      }\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=VOIP%23TELECABLE,standard-voip-sip-user?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=VOIP%23TELECABLE,standard-voip-sip-user"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "9. Cambio de Planes/Politica",
+			"item": [
+				{
+					"name": "Modify l2-user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"intent-specific-data\": {\r\n            \"l2-user:l2-user\": {\r\n                \"speed-profile\": \"PLAN_200M\"\r\n            }\r\n        }\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=HSI%23TELECABLE,l2-user",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=HSI%23TELECABLE,l2-user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "10. Hard Reset",
+			"item": [
+				{
+					"name": "1. Delete Internet Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"l2-user\",\r\n        \"target\": \"HSI#TELECABLE\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Delete VOIP Services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"standard-voip-sip-user\",\r\n        \"target\": \"VOIP#TELECABLE\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Delete VOIP Agent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"standard-voip-sip-agent\",\r\n        \"target\": \"TELECABLE\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Delete ONT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"ont\",\r\n        \"target\": \"TELECABLE\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. SHOW Specific ONT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false,
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"_source\": [\"alarmResourceUiName\", \"deviceRefId\"],\n  \"query\": {\n    \"bool\": {\n      \"must\": [\n        {\n          \"query_string\": {\n            \"default_field\": \"alarmType\",\n            \"query\": \"\\\"onu-present-and-unexpected\\\"\"\n          }\n        },\n        {\n          \"query_string\": {\n            \"default_field\": \"alarmResource\",\n            \"query\": \"\\\"ALCLB413D3E3\\\"\"\n          }\n        }\n      ]\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://179.1.201.69/altiplano-indexsearch/alarms-active/_search?filter_path=hits.hits._source",
+							"protocol": "https",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"altiplano-indexsearch",
+								"alarms-active",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "filter_path",
+									"value": "hits.hits._source"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. ADD ONT Preconfig_File Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"TELECABLE\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n            \"ont:ont\": {\r\n                \"ont-type\": \"G-1425G-B\",\r\n                \"target-software-control\": \"immediate-activation\",\r\n                \"onu-service-profile\": \"default-by-l2-user\",\r\n                \"pon-type\": \"gpon\",\r\n                \"onu-vendor-specific-software\": [\r\n                    {\r\n                        \"target-software-control\": \"immediate-activation\",\r\n                        \"software-type\": 1,\r\n                        \"active-software\": \"default-http:onu-vendor-specific-software/CFGTELE001/CFGTELE001\"\r\n                    }\r\n                ],\r\n                \"expected-serial-number\": \"ALCLB413D3E3\",\r\n                \"uni-service-configuration\": [\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"VEIP\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN1\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN2\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN3\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN4\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"TEL1\"\r\n                    }\r\n                ],\r\n                \"pots-service-profile\": \"default\",\r\n                \"fiber-name\": \"LT2-P1\"\r\n            }\r\n        },\r\n        \"intent-type-version\": \"7\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Add l2-user HSI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"HSI#TELECABLE\",\r\n        \"intent-type\": \"l2-user\",\r\n        \"intent-specific-data\": {\r\n            \"l2-user:l2-user\": {\r\n                \"l2-infra\": \"HSI\",\r\n                \"service-profile\": \"INTERNET_TC0\",\r\n                \"speed-profile\": \"PLAN_RADIUS\",\r\n                \"user-device-name\": \"TELECABLE\",\r\n                \"customer-id\": \"TELECABLE\",\r\n                \"q-vlan-id\": 10,\r\n                \"uni-id\": \"VEIP\"\r\n            }\r\n        },\r\n        \"intent-type-version\": \"9\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. ADD SIP Agent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"ibn:intent\": {\r\n            \"target\": \"TELECABLE\",\r\n            \"intent-type\": \"standard-voip-sip-agent\",\r\n            \"intent-specific-data\": {\r\n                \"standard-voip-sip-agent:standard-voip-sip-agent\": {\r\n                    \"voip-l2-infra-name\": \"VOIP\",\r\n                    \"service-profile\": \"default-voip-sip\"\r\n                }\r\n            },\r\n            \"intent-type-version\": \"5\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. ADD SIP User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"ibn:intent\": {\r\n            \"target\": \"VOIP#TELECABLE\",\r\n            \"intent-type\": \"standard-voip-sip-user\",\r\n            \"intent-specific-data\": {\r\n                \"standard-voip-sip-user:standard-voip-sip-user\": {\r\n                    \"user-device-name\": \"TELECABLE\",\r\n                    \"uni-id\": \"TEL1\",\r\n                    \"sip-address-of-record\": \"5001\",\r\n                    \"sip-display-name\": \"5001\",\r\n                    \"sip-password\": \"fyco1234\",\r\n                    \"sip-user-name\": \"5001\"\r\n                }\r\n            },\r\n            \"intent-type-version\": \"3\",\r\n            \"required-network-state\": \"active\"\r\n        }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "11. Sync",
+			"item": [
+				{
+					"name": "SYNC ont",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=TELECABLE,ont/synchronize/",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=TELECABLE,ont",
+								"synchronize",
+								""
+							]
+						},
+						"description": "This request sample is used to modify intent state.\r\nThe value of required-network-state can be active or suspend or delete"
+					},
+					"response": []
+				},
+				{
+					"name": "SYNC Servicio Internet",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=HSI%23TELECABLE,l2-user/synchronize/",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=HSI%23TELECABLE,l2-user",
+								"synchronize",
+								""
+							]
+						},
+						"description": "This request sample is used to modify intent state.\r\nThe value of required-network-state can be active or suspend or delete"
+					},
+					"response": []
+				},
+				{
+					"name": "SYNC VOIP",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=VOIP%23TELECABLE,standard-voip-sip-user/synchronize/",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=VOIP%23TELECABLE,standard-voip-sip-user",
+								"synchronize",
+								""
+							]
+						},
+						"description": "This request sample is used to modify intent state.\r\nThe value of required-network-state can be active or suspend or delete"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "12. Eliminar ONT",
+			"item": [
+				{
+					"name": "1.Delete Internet Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"l2-user\",\r\n        \"target\": \"HSI#TELECABLE\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.Delete VOIP Services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"standard-voip-sip-user\",\r\n        \"target\": \"VOIP#TELECABLE\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.Delete VOIP Agent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"standard-voip-sip-agent\",\r\n        \"target\": \"TELECABLE\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.Delete ONT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:delete-intent-from-network-and-controller\": {\r\n        \"intent-type\": \"ont\",\r\n        \"target\": \"TELECABLE\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/operations/ibn:delete-intent-from-network-and-controller",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"operations",
+								"ibn:delete-intent-from-network-and-controller"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Ideal eliminar servicios y luego el intent ont"
+		},
+		{
+			"name": "13. Parametros de la ONT",
+			"item": [
+				{
+					"name": "Parameters ONT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://179.1.201.69/nokia-altiplano-av/rest/restconf/data/anv:device-manager/anv-device-holders:device=olt_fx-4.LT2/device-specific-data/bbf-fiber-onu-emulated-mount:onus/onu=TELECABLE/root/ietf-hardware-mounted:hardware-state/component=ANIPORT",
+							"protocol": "https",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"nokia-altiplano-av",
+								"rest",
+								"restconf",
+								"data",
+								"anv:device-manager",
+								"anv-device-holders:device=olt_fx-4.LT2",
+								"device-specific-data",
+								"bbf-fiber-onu-emulated-mount:onus",
+								"onu=TELECABLE",
+								"root",
+								"ietf-hardware-mounted:hardware-state",
+								"component=ANIPORT"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SFP ONT Values",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://179.1.201.69/nokia-altiplano-av/rest/restconf/data/anv:device-manager/anv-device-holders:device=olt_fx-4.LT2/device-specific-data/bbf-fiber-onu-emulated-mount:onus/onu=TELECABLE/root/ietf-hardware-mounted:hardware-state/component=SFP",
+							"protocol": "https",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"nokia-altiplano-av",
+								"rest",
+								"restconf",
+								"data",
+								"anv:device-manager",
+								"anv-device-holders:device=olt_fx-4.LT2",
+								"device-specific-data",
+								"bbf-fiber-onu-emulated-mount:onus",
+								"onu=TELECABLE",
+								"root",
+								"ietf-hardware-mounted:hardware-state",
+								"component=SFP"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "14. Inventario ONTs",
+			"item": [
+				{
+					"name": "SHOW Inventory ONT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://179.1.201.69/nokia-altiplano-av/rest/restconf/data/anv:device-manager/anv-device-holders:device=olt_fx-4.LT2/device-specific-data/ietf-interfaces:interfaces-state/interface=CT_LT2-P15_15_GPON/bbf-xpon:channel-termination/bbf-xpon-onu-state:onus-present-on-local-channel-termination:onu",
+							"protocol": "https",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"nokia-altiplano-av",
+								"rest",
+								"restconf",
+								"data",
+								"anv:device-manager",
+								"anv-device-holders:device=olt_fx-4.LT2",
+								"device-specific-data",
+								"ietf-interfaces:interfaces-state",
+								"interface=CT_LT2-P15_15_GPON",
+								"bbf-xpon:channel-termination",
+								"bbf-xpon-onu-state:onus-present-on-local-channel-termination:onu"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "15. Descripción puerto ONT",
+			"item": [
+				{
+					"name": "Get Specific Info ONT",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=TELECABLE,ont/intent-specific-data/ont:ont-state",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=TELECABLE,ont",
+								"intent-specific-data",
+								"ont:ont-state"
+							]
+						},
+						"description": "This request is to view existing managed directory service managers information."
+					},
+					"response": []
+				}
+			],
+			"description": "Este es el mismo para ont-state"
+		},
+		{
+			"name": "16. Info detallado de ONT",
+			"item": [
+				{
+					"name": "Get Info ONT",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=TELECABLE,ont",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=TELECABLE,ont"
+							]
+						},
+						"description": "This request is to view existing managed directory service managers information."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "17. Info de los Servicios",
+			"item": [
+				{
+					"name": "GET l2-user Internet",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=HSI%23TELECABLE,l2-user",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=HSI%23TELECABLE,l2-user"
+							]
+						},
+						"description": "This request is to view existing managed directory service managers information."
+					},
+					"response": []
+				},
+				{
+					"name": "GET VOIP Services",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=VOIP%23TELECABLE,standard-voip-sip-user",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=VOIP%23TELECABLE,standard-voip-sip-user"
+							]
+						},
+						"description": "This request is to view existing managed directory service managers information."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "18. Estado de la ONT",
+			"item": [
+				{
+					"name": "Get Status ONT",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=TELECABLE,ont/intent-specific-data/ont:ont-state",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=TELECABLE,ont",
+								"intent-specific-data",
+								"ont:ont-state"
+							]
+						},
+						"description": "This request is to view existing managed directory service managers information."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "19. ONT Reset",
+			"item": [
+				{
+					"name": "Reset ONT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ont-action:input\": {\n        \"ont-action:reset\": \"via-ploam\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn/intent=TELECABLE,ont/intent-specific-data/ont-action:reset-ont",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn",
+								"intent=TELECABLE,ont",
+								"intent-specific-data",
+								"ont-action:reset-ont"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "20. Agregar ONT con Preconfiguración",
+			"item": [
+				{
+					"name": "1. ADD ONT Preconfig_File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/yang-data+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/yang-data+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibn:intent\": {\r\n        \"target\": \"TELECABLE\",\r\n        \"intent-type\": \"ont\",\r\n        \"intent-specific-data\": {\r\n            \"ont:ont\": {\r\n                \"ont-type\": \"G-1425G-B\",\r\n                \"target-software-control\": \"immediate-activation\",\r\n                \"onu-service-profile\": \"default-by-l2-user\",\r\n                \"pon-type\": \"gpon\",\r\n                \"onu-vendor-specific-software\": [\r\n                    {\r\n                        \"target-software-control\": \"immediate-activation\",\r\n                        \"software-type\": 1,\r\n                        \"active-software\": \"default-http:onu-vendor-specific-software/CFGALCO004/CFGALCO004\"\r\n                    }\r\n                ],\r\n                \"expected-serial-number\": \"ALCLB413D3E3\",\r\n                \"uni-service-configuration\": [\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"VEIP\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN1\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN2\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN3\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"LAN4\"\r\n                    },\r\n                    {\r\n                        \"service-profile\": \"default-by-l2-user\",\r\n                        \"uni-id\": \"TEL1\"\r\n                    }\r\n                ],\r\n                \"pots-service-profile\": \"default\",\r\n                \"fiber-name\": \"LT2-P1\"\r\n            }\r\n        },\r\n        \"intent-type-version\": \"7\",\r\n        \"required-network-state\": \"active\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/restconf/data/ibn:ibn?altiplano-triggerSyncUponSuccess=true",
+							"protocol": "{{protocol}}",
+							"host": [
+								"179",
+								"1",
+								"201",
+								"69"
+							],
+							"path": [
+								"{{base-url}}",
+								"rest",
+								"restconf",
+								"data",
+								"ibn:ibn"
+							],
+							"query": [
+								{
+									"key": "altiplano-triggerSyncUponSuccess",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetAccessTokenIBN Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"access-token\", pm.response.json().accessToken);",
+							"pm.environment.set(\"refresh-token\", pm.response.json().refreshToken);",
+							"pm.globals.set(\"access-token\", pm.response.json().accessToken);",
+							"pm.globals.set(\"refresh-token\", pm.response.json().refreshToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{protocol}}://179.1.201.69/{{base-url}}/rest/auth/login",
+					"protocol": "{{protocol}}",
+					"host": [
+						"179",
+						"1",
+						"201",
+						"69"
+					],
+					"path": [
+						"{{base-url}}",
+						"rest",
+						"auth",
+						"login"
+					]
+				},
+				"description": "Get Access Token and Refresh Token by Login method before executing any other RESTCONF request."
+			},
+			"response": []
+		}
+	]
+}
